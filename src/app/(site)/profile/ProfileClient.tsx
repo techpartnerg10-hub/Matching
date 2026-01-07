@@ -54,6 +54,10 @@ function ProfileClientInner() {
   const [changing, setChanging] = React.useState(false);
 
   async function onChangePassword() {
+    if (!user) {
+      toast.error("로그인이 필요합니다.");
+      return;
+    }
     if (!newPassword || !confirmPassword || !currentPassword) {
       toast.error("모든 필드를 입력해 주세요.");
       return;
