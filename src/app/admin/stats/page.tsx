@@ -73,7 +73,7 @@ function AdminStatsInner() {
             <CardDescription>Top 8</CardDescription>
           </CardHeader>
           <CardContent className="p-4">
-            <div className="h-[280px] w-full min-w-0">
+            <div className="h-[280px] w-full min-w-0 overflow-x-auto">
               <KeywordUsageBar labels={labels} values={values} />
             </div>
           </CardContent>

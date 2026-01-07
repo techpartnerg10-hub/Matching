@@ -167,6 +167,35 @@ export function setUserStatus(params: { userId: string; status: "active" | "disa
   saveDb(db);
 }
 
+export function updateUserPassword(params: {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+}): { ok: true } | { ok: false; error: string } {
+  const db = loadDb();
+  const u = db.users.find((x) => x.id === params.userId);
+  if (!u) return { ok: false, error: "사용자를 찾을 수 없습니다." };
+  if (u.password !== params.currentPassword) {
+    return { ok: false, error: "현재 비밀번호가 올바르지 않습니다." };
+  }
+  u.password = params.newPassword;
+  saveDb(db);
+  return { ok: true };
+}
+
+export function resetPasswordByEmail(params: {
+  email: string;
+  newPassword: string;
+}): { ok: true } | { ok: false; error: string } {
+  const db = loadDb();
+  const email = params.email.trim().toLowerCase();
+  const u = db.users.find((x) => x.email.toLowerCase() === email);
+  if (!u) return { ok: false, error: "해당 이메일의 계정을 찾을 수 없습니다." };
+  u.password = params.newPassword;
+  saveDb(db);
+  return { ok: true };
+}
+
 export function addKeyword(name: string) {
   const db = loadDb();
   const trimmed = name.trim();

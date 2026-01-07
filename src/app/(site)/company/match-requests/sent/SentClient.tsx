@@ -38,6 +38,15 @@ function SentInner({ id }: { id: string | null }) {
 
   return (
     <div className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1">
+          <div className="text-2xl font-semibold">매칭 요청 내역</div>
+          <div className="text-sm text-[color:var(--muted)]">
+            기업이 보낸 매칭 요청의 상태를 확인합니다.
+          </div>
+        </div>
+      </div>
+
       {id && (
         <Card>
           <CardHeader>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BarChart3, Bell, Users } from "lucide-react";
+import { Users } from "lucide-react";
 
 import { ClientOnly } from "@/components/common/ClientOnly";
 import { getAdminStats, getUserById } from "@/lib/demoActions";
@@ -29,20 +29,6 @@ function AdminDashboardInner() {
           <div className="text-sm text-[color:var(--muted)]">
             회원/키워드/요청/로그/통계를 한눈에 확인합니다.
           </div>
-        </div>
-        <div className="flex gap-2">
-          <Link href="/admin/notifications">
-            <Button variant="secondary">
-              <Bell className="h-4 w-4" />
-              알림 로그
-            </Button>
-          </Link>
-          <Link href="/admin/stats">
-            <Button>
-              <BarChart3 className="h-4 w-4" />
-              통계 보기
-            </Button>
-          </Link>
         </div>
       </div>
 

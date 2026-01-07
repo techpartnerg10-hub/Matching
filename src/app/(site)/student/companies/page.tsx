@@ -35,17 +35,6 @@ function StudentCompaniesInner() {
             카드형 UI로 기업 정보/키워드를 탐색합니다.
           </div>
         </div>
-        <div className="flex gap-2">
-          <Link href="/profile">
-            <Button variant="secondary">마이 페이지</Button>
-          </Link>
-          <Link href="/">
-            <Button variant="secondary">
-              <Sparkles className="h-4 w-4" />
-              다른 역할로 보기
-            </Button>
-          </Link>
-        </div>
       </div>
 
       <Card>

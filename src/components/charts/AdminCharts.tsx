@@ -21,6 +21,20 @@ export function KeywordUsageBar({
   labels: string[];
   values: number[];
 }) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [width, setWidth] = React.useState<number | undefined>(undefined);
+
+  React.useEffect(() => {
+    function updateWidth() {
+      if (containerRef.current) {
+        setWidth(containerRef.current.clientWidth);
+      }
+    }
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
   // 그라데이션 색상 생성 (밝고 선명한 보라색 계열)
   const generateGradient = (ctx: CanvasRenderingContext2D) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -30,7 +44,8 @@ export function KeywordUsageBar({
   };
 
   return (
-    <Bar
+    <div ref={containerRef} className="h-full w-full">
+      <Bar
       data={{
         labels,
         datasets: [
@@ -86,7 +101,10 @@ export function KeywordUsageBar({
           },
         },
       }}
+      width={width}
+      height={280}
     />
+    </div>
   );
 }
 
@@ -99,8 +117,24 @@ export function RequestStatusDoughnut({
   approved: number;
   rejected: number;
 }) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [size, setSize] = React.useState<number | undefined>(undefined);
+
+  React.useEffect(() => {
+    function updateSize() {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth;
+        setSize(Math.min(containerWidth, 384));
+      }
+    }
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   return (
-    <Doughnut
+    <div ref={containerRef} className="h-full w-full flex items-center justify-center">
+      <Doughnut
       data={{
         labels: ["대기", "승인", "반려"],
         datasets: [
@@ -144,7 +178,10 @@ export function RequestStatusDoughnut({
           },
         },
       }}
+      width={size}
+      height={280}
     />
+    </div>
   );
 }
 
