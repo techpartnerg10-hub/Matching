@@ -17,10 +17,7 @@ export default function PasswordResetPage() {
     <div className="mx-auto max-w-md">
       <Card>
         <CardHeader>
-          <CardTitle>비밀번호 재설정(데모)</CardTitle>
-          <CardDescription>
-            실제 메일 발송/인증은 하지 않고, 화면 흐름만 제공합니다.
-          </CardDescription>
+          <CardTitle>비밀번호 재설정</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {step === 1 ? (

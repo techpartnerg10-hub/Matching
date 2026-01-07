@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "키워드 기반 매칭 프로토타입",
-  description: "기업-학생 키워드 매칭 서비스 데모(프로토타입)",
+  description: "기업-학생 키워드 매칭 서비스",
 };
 
 export default function RootLayout({

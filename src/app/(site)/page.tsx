@@ -1,18 +1,16 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import type { Role } from "@/lib/demoDbTypes";
-import { loginWithEmailPassword, clearSession } from "@/lib/auth";
+import { loginWithEmailPassword, clearSession, signupDemoUser } from "@/lib/auth";
 import { resetPasswordByEmail } from "@/lib/demoActions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { OnboardingModal } from "@/components/onboarding/OnboardingModal";
 
 const ROLE_LABEL: Record<Role, string> = {
@@ -25,7 +23,7 @@ function LandingPageContent() {
   const router = useRouter();
   const search = useSearchParams();
   const next = search.get("next") || "";
-  const [mode, setMode] = React.useState<"login" | "reset">("login");
+  const [mode, setMode] = React.useState<"login" | "reset" | "signup">("login");
   const [role, setRole] = React.useState<Role>("company");
   const [email, setEmail] = React.useState("company1@demo.com");
   const [password, setPassword] = React.useState("demo1234");
@@ -35,6 +33,11 @@ function LandingPageContent() {
   const [newPassword, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [resetting, setResetting] = React.useState(false);
+  const [signupRole, setSignupRole] = React.useState<"company" | "student" | null>("company");
+  const [signupName, setSignupName] = React.useState("");
+  const [signupEmail, setSignupEmail] = React.useState("");
+  const [signupPassword, setSignupPassword] = React.useState("demo1234");
+  const [signingUp, setSigningUp] = React.useState(false);
 
   // "/" 경로 호출 시 모든 캐시, 세션, 히스토리, 로그인 정보 삭제
   React.useEffect(() => {
@@ -54,6 +57,11 @@ function LandingPageContent() {
     setNewPassword("");
     setConfirmPassword("");
     setResetting(false);
+    setSignupRole(null);
+    setSignupName("");
+    setSignupEmail("");
+    setSignupPassword("demo1234");
+    setSigningUp(false);
 
     // 3. Next.js 라우터 캐시 새로고침
     router.refresh();
@@ -166,6 +174,48 @@ function LandingPageContent() {
     }
   }
 
+  async function onSignup(e: React.FormEvent) {
+    e.preventDefault();
+    if (!signupRole) {
+      toast.error("역할을 선택해 주세요.");
+      return;
+    }
+    
+    if (!signupName.trim()) {
+      toast.error(signupRole === "company" ? "기업명을 입력해 주세요." : "이름을 입력해 주세요.");
+      return;
+    }
+    if (!signupEmail.trim()) {
+      toast.error("이메일을 입력해 주세요.");
+      return;
+    }
+    if (!signupPassword.trim()) {
+      toast.error("비밀번호를 입력해 주세요.");
+      return;
+    }
+
+    setSigningUp(true);
+    try {
+      const res = signupDemoUser({
+        role: signupRole,
+        email: signupEmail,
+        name: signupName,
+        password: signupPassword,
+      });
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
+      loginWithEmailPassword({ email: signupEmail, password: signupPassword, role: signupRole });
+      toast.success(`${ROLE_LABEL[signupRole]} 회원가입 완료`, {
+        description: "프로필(키워드)을 등록해 주세요.",
+      });
+      router.replace("/profile/edit");
+    } finally {
+      setSigningUp(false);
+    }
+  }
+
   return (
     <div className="relative">
       <OnboardingModal />
@@ -223,12 +273,19 @@ function LandingPageContent() {
               </form>
 
               <div className="flex items-center justify-between text-sm">
-                <Link
-                  href="/auth/signup"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("signup");
+                    setSignupRole("company");
+                    setSignupName("");
+                    setSignupEmail("");
+                    setSignupPassword("demo1234");
+                  }}
                   className="text-muted hover:text-foreground"
                 >
                   회원가입
-                </Link>
+                </button>
                 <button
                   type="button"
                   onClick={() => {
@@ -245,13 +302,136 @@ function LandingPageContent() {
               </div>
             </CardContent>
           </Card>
+        ) : mode === "signup" ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>회원가입</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <form className="space-y-3" onSubmit={onSignup}>
+                <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <label
+                      className={[
+                        "flex cursor-pointer items-center gap-2 rounded-xl border p-3 transition",
+                        signupRole === "company"
+                          ? "border-(--brand)/50 bg-(--brand)/15"
+                          : "border-white/10 bg-white/5 hover:bg-white/10",
+                      ].join(" ")}
+                    >
+                      <input
+                        type="radio"
+                        name="signupRole"
+                        value="company"
+                        checked={signupRole === "company"}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSignupRole("company");
+                            setSignupName("");
+                            setSignupEmail("");
+                            setSignupPassword("demo1234");
+                          }
+                        }}
+                        className="h-4 w-4 cursor-pointer accent-brand"
+                      />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">기업</div>
+                        <div className="text-xs text-muted-2">학생 검색/매칭</div>
+                      </div>
+                    </label>
+                    <label
+                      className={[
+                        "flex cursor-pointer items-center gap-2 rounded-xl border p-3 transition",
+                        signupRole === "student"
+                          ? "border-(--brand)/50 bg-(--brand)/15"
+                          : "border-white/10 bg-white/5 hover:bg-white/10",
+                      ].join(" ")}
+                    >
+                      <input
+                        type="radio"
+                        name="signupRole"
+                        value="student"
+                        checked={signupRole === "student"}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSignupRole("student");
+                            setSignupName("");
+                            setSignupEmail("");
+                            setSignupPassword("demo1234");
+                          }
+                        }}
+                        className="h-4 w-4 cursor-pointer accent-brand"
+                      />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">학생</div>
+                        <div className="text-xs text-muted-2">기업 리스트 조회</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                {signupRole && (
+                  <>
+                    <div className="space-y-1">
+                      <div className="text-xs text-muted-2">
+                        {signupRole === "company" ? "기업명" : "이름"}
+                      </div>
+                      <Input
+                        placeholder={signupRole === "company" ? "기업명" : "이름"}
+                        value={signupName}
+                        onChange={(e) => setSignupName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-xs text-muted-2">이메일</div>
+                      <Input
+                        placeholder="이메일"
+                        value={signupEmail}
+                        onChange={(e) => setSignupEmail(e.target.value)}
+                        type="email"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-xs text-muted-2">비밀번호</div>
+                      <Input
+                        placeholder="비밀번호"
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                        type="password"
+                        required
+                      />
+                    </div>
+                    <Button className="w-full" isLoading={signingUp} type="submit" disabled={!signupRole}>
+                      가입하고 계속하기
+                    </Button>
+                  </>
+                )}
+              </form>
+
+              <div className="flex items-center justify-between text-sm">
+                <div />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("login");
+                    setSignupRole(null);
+                    setSignupName("");
+                    setSignupEmail("");
+                    setSignupPassword("demo1234");
+                  }}
+                  className="text-muted hover:text-foreground"
+                >
+                  로그인으로
+                </button>
+              </div>
+            </CardContent>
+          </Card>
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>비밀번호 재설정(데모)</CardTitle>
-              <CardDescription>
-                실제 메일 발송/인증은 하지 않고, 화면 흐름만 제공합니다.
-              </CardDescription>
+              <CardTitle>비밀번호 재설정</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {resetStep === 1 ? (
@@ -317,12 +497,19 @@ function LandingPageContent() {
                 >
                   로그인으로
                 </button>
-                <Link
-                  href="/auth/signup"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("signup");
+                    setSignupRole("company");
+                    setSignupName("");
+                    setSignupEmail("");
+                    setSignupPassword("demo1234");
+                  }}
                   className="text-muted hover:text-foreground"
                 >
                   회원가입
-                </Link>
+                </button>
               </div>
             </CardContent>
           </Card>
@@ -334,7 +521,7 @@ function LandingPageContent() {
 
 export default function LandingPage() {
   return (
-    <Suspense fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
+    <Suspense fallback={<div className="text-sm text-muted">로딩 중…</div>}>
       <LandingPageContent />
     </Suspense>
   );
