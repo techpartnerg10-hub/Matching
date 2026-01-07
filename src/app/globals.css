@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0b1020;
+  --foreground: #eaf0ff;
+  --surface: rgba(255, 255, 255, 0.08);
+  --surface-2: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.18);
+  --muted: rgba(234, 240, 255, 0.78);
+  --muted-2: rgba(234, 240, 255, 0.62);
+  --brand: #7c3aed;
+  --brand-2: #22c55e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b1020;
+    --foreground: #eaf0ff;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+}
+
+.bg-grid {
+  background-image: radial-gradient(
+      rgba(234, 240, 255, 0.12) 1px,
+      transparent 1px
+    ),
+    radial-gradient(rgba(124, 58, 237, 0.12) 1px, transparent 1px);
+  background-position:
+    0 0,
+    12px 12px;
+  background-size: 24px 24px;
+}
