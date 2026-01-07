@@ -9,9 +9,6 @@ export default function SignupIndexPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="space-y-2">
         <div className="text-2xl font-semibold">회원가입</div>
-        <p className="text-sm text-[color:var(--muted)]">
-          기업/학생 중 역할을 선택해 데모 계정을 생성합니다(LocalStorage 저장).
-        </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">

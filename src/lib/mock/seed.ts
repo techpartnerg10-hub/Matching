@@ -14,7 +14,7 @@ export const SEED_DB: DemoDb = {
       id: "u_admin_1",
       role: "admin",
       email: "admin@demo.com",
-      name: "관리자(데모)",
+      name: "관리자",
       password: "demo1234",
       createdAt: isoNowMinusDays(20),
       status: "active",

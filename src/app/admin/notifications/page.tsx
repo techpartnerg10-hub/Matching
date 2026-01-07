@@ -21,9 +21,6 @@ function AdminNotificationsInner() {
     <div className="space-y-6">
       <div className="space-y-1">
         <div className="text-2xl font-semibold">알림/메일 발송 내역</div>
-        <div className="text-sm text-[color:var(--muted)]">
-          실제 발송이 아닌 “발송된 것처럼” 기록되는 데모 로그입니다.
-        </div>
       </div>
 
       <Card>

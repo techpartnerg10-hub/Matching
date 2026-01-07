@@ -30,7 +30,7 @@ function AdminSystemInner() {
       <div className="space-y-1">
         <div className="text-2xl font-semibold">시스템 관리</div>
         <div className="text-sm text-[color:var(--muted)]">
-          모니터링/보안/관리자 계정 UI 목업(데모)입니다.
+          모니터링/보안/관리자 계정 UI 목업입니다.
         </div>
       </div>
 
