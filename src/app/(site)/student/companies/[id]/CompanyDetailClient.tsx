@@ -13,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function CompanyDetailClient({ companyId }: { companyId: string }) {
   return (
-    <RequireRole roles={["student"]} redirectTo="/auth/login">
+    <RequireRole roles={["student"]} redirectTo="/">
       <ClientOnly fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
         <CompanyDetailInner companyId={companyId} />
       </ClientOnly>

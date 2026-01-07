@@ -64,7 +64,7 @@ export default function PasswordResetPage() {
 
           <div className="flex items-center justify-between text-sm">
             <Link
-              href="/auth/login"
+              href="/"
               className="text-[color:var(--muted)] hover:text-[color:var(--foreground)]"
             >
               로그인으로

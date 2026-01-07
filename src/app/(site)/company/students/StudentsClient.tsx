@@ -22,7 +22,7 @@ export default function StudentsClient() {
   const mode = (search.get("mode") === "any" ? "any" : "all") as "all" | "any";
 
   return (
-    <RequireRole roles={["company"]} redirectTo="/auth/login">
+    <RequireRole roles={["company"]} redirectTo="/">
       <ClientOnly fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
         <StudentsInner keywordIds={keywordIds} mode={mode} />
       </ClientOnly>

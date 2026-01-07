@@ -77,7 +77,7 @@ export default function CompanySignupPage() {
             </Link>
             <Link
               className="text-[color:var(--muted)] hover:text-[color:var(--foreground)]"
-              href="/auth/login"
+              href="/"
             >
               로그인
             </Link>

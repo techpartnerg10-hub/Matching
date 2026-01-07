@@ -52,7 +52,7 @@ export default function SignupIndexPage() {
 
       <div className="text-sm text-[color:var(--muted-2)]">
         이미 계정이 있으신가요?{" "}
-        <Link className="text-white/90 hover:underline" href="/auth/login">
+        <Link className="text-white/90 hover:underline" href="/">
           로그인
         </Link>
       </div>

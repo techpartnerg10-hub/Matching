@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function CompanySearchPage() {
   return (
-    <RequireRole roles={["company"]} redirectTo="/auth/login">
+    <RequireRole roles={["company"]} redirectTo="/">
       <ClientOnly fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
         <CompanySearchInner />
       </ClientOnly>

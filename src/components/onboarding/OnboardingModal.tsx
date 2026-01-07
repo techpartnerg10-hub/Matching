@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -97,16 +96,14 @@ export function OnboardingModal() {
                   이전
                 </Button>
                 {isLast ? (
-                  <Link href="/auth/login">
-                    <Button
-                      onClick={() => {
-                        markSeen();
-                        setOpen(false);
-                      }}
-                    >
-                      데모 시작
-                    </Button>
-                  </Link>
+                  <Button
+                    onClick={() => {
+                      markSeen();
+                      setOpen(false);
+                    }}
+                  >
+                    데모 시작
+                  </Button>
                 ) : (
                   <Button onClick={() => setIdx((x) => Math.min(steps.length - 1, x + 1))}>
                     다음

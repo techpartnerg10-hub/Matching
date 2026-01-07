@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function MatchRequestClient() {
   return (
-    <RequireRole roles={["company"]} redirectTo="/auth/login">
+    <RequireRole roles={["company"]} redirectTo="/">
       <ClientOnly fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
         <MatchRequestInner />
       </ClientOnly>
@@ -51,7 +51,7 @@ function MatchRequestInner() {
           <CardTitle>로그인이 필요합니다</CardTitle>
         </CardHeader>
         <CardContent>
-          <Link href="/auth/login">
+          <Link href="/">
             <Button variant="secondary">로그인</Button>
           </Link>
         </CardContent>

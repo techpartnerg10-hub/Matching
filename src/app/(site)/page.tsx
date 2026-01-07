@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import type { Role } from "@/lib/demoDbTypes";
@@ -19,8 +20,10 @@ const ROLE_LABEL: Record<Role, string> = {
   admin: "관리자",
 };
 
-export default function LandingPage() {
+function LandingPageContent() {
   const router = useRouter();
+  const search = useSearchParams();
+  const next = search.get("next") || "";
   const [role, setRole] = React.useState<Role>("company");
   const [email, setEmail] = React.useState("company1@demo.com");
   const [password, setPassword] = React.useState("demo1234");
@@ -36,6 +39,7 @@ export default function LandingPage() {
   }, []);
 
   function routeAfterLogin(r: Role) {
+    if (next && next !== "/") return next;
     if (r === "admin") return "/admin";
     if (r === "company") return "/company/search";
     return "/student/companies";
@@ -140,6 +144,14 @@ export default function LandingPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <Suspense fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
+      <LandingPageContent />
+    </Suspense>
   );
 }
 

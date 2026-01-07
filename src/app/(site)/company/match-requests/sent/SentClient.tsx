@@ -17,7 +17,7 @@ export default function SentClient() {
   const id = search.get("id");
 
   return (
-    <RequireRole roles={["company"]} redirectTo="/auth/login">
+    <RequireRole roles={["company"]} redirectTo="/">
       <ClientOnly fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
         <SentInner id={id} />
       </ClientOnly>

@@ -44,7 +44,7 @@ function ProfileEditInner() {
           <CardDescription>프로필을 수정하려면 로그인해 주세요.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Link href="/auth/login">
+          <Link href="/">
             <Button variant="secondary">로그인</Button>
           </Link>
         </CardContent>

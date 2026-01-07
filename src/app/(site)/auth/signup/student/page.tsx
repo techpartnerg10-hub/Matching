@@ -77,7 +77,7 @@ export default function StudentSignupPage() {
             </Link>
             <Link
               className="text-[color:var(--muted)] hover:text-[color:var(--foreground)]"
-              href="/auth/login"
+              href="/"
             >
               로그인
             </Link>

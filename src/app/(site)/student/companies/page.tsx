@@ -14,7 +14,7 @@ import { CompanyCard } from "@/components/cards/CompanyCard";
 
 export default function StudentCompaniesPage() {
   return (
-    <RequireRole roles={["student"]} redirectTo="/auth/login">
+    <RequireRole roles={["student"]} redirectTo="/">
       <ClientOnly fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
         <StudentCompaniesInner />
       </ClientOnly>
@@ -39,7 +39,7 @@ function StudentCompaniesInner() {
           <Link href="/profile">
             <Button variant="secondary">마이 페이지</Button>
           </Link>
-          <Link href="/auth/login">
+          <Link href="/">
             <Button variant="secondary">
               <Sparkles className="h-4 w-4" />
               다른 역할로 보기
