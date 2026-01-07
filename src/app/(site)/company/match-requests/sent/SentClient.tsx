@@ -91,9 +91,6 @@ function SentInner({ id }: { id: string | null }) {
                   </div>
                   <div className="flex items-center justify-between gap-2 sm:flex-col sm:items-end">
                     {statusBadge(mr.status)}
-                    <Link href="/admin/login" className="text-sm text-white/80 hover:underline">
-                      관리자 보기
-                    </Link>
                   </div>
                 </div>
               );

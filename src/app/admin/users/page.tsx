@@ -9,6 +9,7 @@ import type { Role } from "@/lib/demoDbTypes";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 
 export default function AdminUsersPage() {
   return (
@@ -86,22 +87,18 @@ function AdminUsersInner() {
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant={u.status === "active" ? "green" : "outline"}>
-                    {u.status === "active" ? "활성" : "비활성"}
-                  </Badge>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={() => {
+                  <Switch
+                    checked={u.status === "active"}
+                    onChange={(checked) => {
                       setUserStatus({
                         userId: u.id,
-                        status: u.status === "active" ? "disabled" : "active",
+                        status: checked ? "active" : "disabled",
                       });
                       refresh();
                     }}
-                  >
-                    상태 토글
-                  </Button>
+                    checkedLabel="활성"
+                    uncheckedLabel="비활성"
+                  />
                   <Button
                     size="sm"
                     variant="danger"
