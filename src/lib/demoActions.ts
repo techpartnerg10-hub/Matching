@@ -71,6 +71,32 @@ export function searchStudents(params: {
   return { db, results };
 }
 
+export function searchCompanies(params: {
+  keywordIds: string[];
+  mode: "all" | "any";
+}) {
+  const db = loadDb();
+  const companies = db.users.filter((u) => u.role === "company" && u.status === "active");
+  const keywordSet = new Set(params.keywordIds);
+
+  const results = companies
+    .map((u) => {
+      const p = getProfileByUserId(db, u.id);
+      const matches = p.keywords.filter((k) => keywordSet.has(k));
+      const ok =
+        params.keywordIds.length === 0
+          ? true
+          : params.mode === "all"
+            ? matches.length === keywordSet.size
+            : matches.length > 0;
+      return { user: u, profile: p, matches, ok };
+    })
+    .filter((x) => x.ok)
+    .sort((a, b) => b.matches.length - a.matches.length);
+
+  return { db, results };
+}
+
 export function createMatchRequest(params: {
   companyId: string;
   studentId: string;

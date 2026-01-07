@@ -13,17 +13,28 @@ export function CompanyCard({
   db,
   user,
   profile,
+  matchKeywordIds = [],
+  selectedKeywordIds = [],
 }: {
   db: DemoDb;
   user: User;
   profile: Profile;
+  matchKeywordIds?: string[];
+  selectedKeywordIds?: string[];
 }) {
+  const matchSet = new Set(matchKeywordIds);
+
   return (
     <Card className="h-full">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span className="truncate">{user.name}</span>
-          <Badge variant="outline">기업</Badge>
+          <div className="flex items-center gap-2">
+            {matchKeywordIds.length > 0 && (
+              <Badge variant="green">{matchKeywordIds.length}개 매칭</Badge>
+            )}
+            <Badge variant="outline">기업</Badge>
+          </div>
         </CardTitle>
         <CardDescription className="line-clamp-2">
           {profile.intro?.trim() ? profile.intro : "기업 소개가 비어있습니다."}
@@ -32,7 +43,10 @@ export function CompanyCard({
       <CardContent className="space-y-4">
         <div className="flex flex-wrap gap-2">
           {profile.keywords.slice(0, 8).map((id) => (
-            <Badge key={id} variant="brand">
+            <Badge 
+              key={id} 
+              variant={matchSet.has(id) ? "brand" : "outline"}
+            >
               {getKeywordName(db, id)}
             </Badge>
           ))}

@@ -54,20 +54,7 @@ function SentInner({ id }: { id: string | null }) {
               <CheckCircle2 className="h-5 w-5 text-[color:var(--brand-2)]" />
               매칭 요청이 접수되었습니다
             </CardTitle>
-            <CardDescription>
-              관리자 알림/메일이 발송된 것으로 로그에 기록됩니다.
-            </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2 sm:flex-row">
-            <Link href="/admin/login">
-              <Button variant="secondary" className="w-full sm:w-auto">
-                관리자에서 확인
-              </Button>
-            </Link>
-            <Link href="/company/search">
-              <Button className="w-full sm:w-auto">다시 검색</Button>
-            </Link>
-          </CardContent>
         </Card>
       )}
 
