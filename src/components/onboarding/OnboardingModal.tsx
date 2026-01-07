@@ -19,7 +19,7 @@ const steps = [
   },
   {
     title: "핵심 포인트",
-    body: "모든 데이터는 LocalStorage에 저장됩니다. 상단 ‘데모 초기화’로 언제든 초기 상태로 되돌릴 수 있습니다.",
+    body: "모든 데이터는 LocalStorage에 저장됩니다.",
   },
 ];
 

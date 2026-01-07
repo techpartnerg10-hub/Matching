@@ -37,7 +37,7 @@ function AdminUsersInner() {
       <div className="space-y-1">
         <div className="text-2xl font-semibold">회원 관리</div>
         <div className="text-sm text-[color:var(--muted)]">
-          기업/학생 계정을 관리합니다(데모 LocalStorage).
+          기업/학생 계정을 관리합니다.
         </div>
       </div>
 
