@@ -116,7 +116,7 @@ export function SiteHeader() {
     const items: Array<{ href: string; label: string }> = [];
 
     if (userRole === "company") {
-      items.push({ href: "/company/search", label: "학생 검색" });
+      items.push({ href: "/company/students", label: "학생 검색" });
     } else if (userRole === "student") {
       items.push({ href: "/student/companies", label: "기업 검색" });
     }
@@ -228,7 +228,7 @@ export function UserNavigationBar() {
 
   const navItems = [
     {
-      href: userRole === "company" ? "/company/search" : "/student/companies",
+      href: userRole === "company" ? "/company/students" : "/student/companies",
       label: "검색",
       icon: Search,
     },

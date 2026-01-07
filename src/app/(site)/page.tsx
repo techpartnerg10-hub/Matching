@@ -29,19 +29,55 @@ function LandingPageContent() {
   const [password, setPassword] = React.useState("demo1234");
   const [loading, setLoading] = React.useState(false);
 
-  // "/" 경로 호출 시 모든 로그인 캐시 정보 및 히스토리 삭제
+  // "/" 경로 호출 시 모든 캐시, 세션, 히스토리, 로그인 정보 삭제
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // 1. 세션 클리어 (로그인 정보 제거)
     clearSession();
-    // 브라우저 히스토리를 현재 페이지로 교체하여 이전 히스토리 제거
-    if (typeof window !== "undefined") {
+
+    // 2. 로그인 폼 입력값 초기화
+    setRole("company");
+    setEmail("");
+    setPassword("");
+    setLoading(false);
+
+    // 3. Next.js 라우터 캐시 새로고침
+    router.refresh();
+
+    // 4. 브라우저 히스토리 정리
+    // 현재 히스토리를 루트로 교체하고 모든 이전 히스토리 제거
+    window.history.replaceState(null, "", "/");
+    
+    // 5. 히스토리 스택을 완전히 정리하기 위해 pushState 후 replaceState
+    if (window.history.length > 1) {
+      window.history.pushState(null, "", "/");
       window.history.replaceState(null, "", "/");
     }
-  }, []);
+
+    // 6. Next.js 프리페치 캐시 정리 (가능한 경우)
+    if ("caches" in window) {
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          if (cacheName.includes("next") || cacheName.includes("route")) {
+            caches.delete(cacheName);
+          }
+        });
+      });
+    }
+
+    // 7. sessionStorage도 정리 (혹시 모를 로그인 관련 정보)
+    try {
+      sessionStorage.clear();
+    } catch {
+      // sessionStorage를 사용할 수 없는 경우 무시
+    }
+  }, [router]);
 
   function routeAfterLogin(r: Role) {
     if (next && next !== "/") return next;
     if (r === "admin") return "/admin";
-    if (r === "company") return "/company/search";
+    if (r === "company") return "/company/students";
     return "/student/companies";
   }
 
