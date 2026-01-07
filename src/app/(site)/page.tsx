@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import type { Role } from "@/lib/demoDbTypes";
-import { loginWithEmailPassword } from "@/lib/auth";
+import { loginWithEmailPassword, clearSession } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,15 @@ export default function LandingPage() {
   const [email, setEmail] = React.useState("company1@demo.com");
   const [password, setPassword] = React.useState("demo1234");
   const [loading, setLoading] = React.useState(false);
+
+  // "/" 경로 호출 시 모든 로그인 캐시 정보 및 히스토리 삭제
+  React.useEffect(() => {
+    clearSession();
+    // 브라우저 히스토리를 현재 페이지로 교체하여 이전 히스토리 제거
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", "/");
+    }
+  }, []);
 
   function routeAfterLogin(r: Role) {
     if (r === "admin") return "/admin";
