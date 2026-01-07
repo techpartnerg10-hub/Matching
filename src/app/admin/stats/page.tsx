@@ -66,14 +66,14 @@ function AdminStatsInner() {
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 xl:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>키워드 사용 빈도</CardTitle>
             <CardDescription>Top 8</CardDescription>
           </CardHeader>
-          <CardContent className="p-4">
-            <div className="h-[280px] w-full min-w-0 overflow-x-auto">
+          <CardContent className="">
+            <div className="h-[280px] w-full max-w-[250px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[500px] mx-auto overflow-hidden">
               <KeywordUsageBar labels={labels} values={values} />
             </div>
           </CardContent>
@@ -84,7 +84,7 @@ function AdminStatsInner() {
             <CardDescription>대기/승인/반려</CardDescription>
           </CardHeader>
           <CardContent className="p-4">
-            <div className="h-[280px] w-full max-w-sm mx-auto">
+          <div className="h-[280px] w-full max-w-[250px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[500px] mx-auto overflow-hidden">
               <RequestStatusDoughnut
                 pending={counts.pending}
                 approved={counts.approved}
