@@ -57,7 +57,7 @@ export function CompanyCard({
           )}
         </div>
         <Link href={`/student/companies/${encodeURIComponent(user.id)}`}>
-          <Button className="w-full" variant="secondary">
+          <Button className="w-full">
             기업 정보 보기 <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>

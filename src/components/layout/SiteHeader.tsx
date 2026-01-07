@@ -132,7 +132,7 @@ export function SiteHeader() {
             <Handshake className="h-5 w-5 text-[color:var(--brand)]" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-semibold">Matching Platform</div>
+            <div className="text-sm font-semibold">기업-학생 매칭 플랫폼</div>
           </div>
         </Link>
 
@@ -229,7 +229,7 @@ export function UserNavigationBar() {
   const navItems = [
     {
       href: userRole === "company" ? "/company/students" : "/student/companies",
-      label: "검색",
+      label: userRole === "company" ? "학생 리스트" : "기업 리스트",
       icon: Search,
     },
     ...(userRole === "company"
@@ -243,7 +243,7 @@ export function UserNavigationBar() {
       : []),
     {
       href: "/profile",
-      label: "마이",
+      label: "마이 페이지",
       icon: User,
     },
   ];

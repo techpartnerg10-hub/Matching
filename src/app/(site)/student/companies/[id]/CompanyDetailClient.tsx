@@ -23,7 +23,8 @@ export default function CompanyDetailClient({ companyId }: { companyId: string }
 
 function CompanyDetailInner({ companyId }: { companyId: string }) {
   const db = loadDb();
-  const company = db.users.find((u) => u.id === companyId && u.role === "company") ?? null;
+  const decodedId = decodeURIComponent(companyId);
+  const company = db.users.find((u) => u.id === decodedId && u.role === "company" && u.status === "active") ?? null;
 
   if (!company) {
     return (
@@ -33,6 +34,9 @@ function CompanyDetailInner({ companyId }: { companyId: string }) {
           <CardDescription>기업 리스트에서 다시 선택해 주세요.</CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="mb-4 text-xs text-[color:var(--muted-2)]">
+            찾는 ID: {decodedId}
+          </div>
           <Link href="/student/companies">
             <Button variant="secondary">
               <ChevronLeft className="h-4 w-4" />

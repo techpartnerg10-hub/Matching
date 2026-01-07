@@ -1,11 +1,17 @@
+import { Suspense } from "react";
 import CompanyDetailClient from "./CompanyDetailClient";
 
-export default function CompanyDetailPage({
+export default async function CompanyDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  return <CompanyDetailClient companyId={params.id} />;
+  const { id } = await params;
+  return (
+    <Suspense fallback={<div className="text-sm text-[color:var(--muted)]">로딩 중…</div>}>
+      <CompanyDetailClient companyId={id} />
+    </Suspense>
+  );
 }
 
 
