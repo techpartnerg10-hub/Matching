@@ -69,14 +69,20 @@ export function KeywordUsageBar({
               maxRotation: 45,
               minRotation: 45,
             },
-            grid: { color: "rgba(255,255,255,0.08)", drawBorder: false },
+            grid: { 
+              color: "rgba(255,255,255,0.08)"
+            },
+            border: { display: false },
           },
           y: {
             ticks: {
               color: "#eaf0ff",
               font: { size: 11 },
             },
-            grid: { color: "rgba(255,255,255,0.08)", drawBorder: false },
+            grid: { 
+              color: "rgba(255,255,255,0.08)"
+            },
+            border: { display: false },
           },
         },
       }}
